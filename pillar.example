@@ -4,18 +4,72 @@ salt:
       - git
       - roots
     gitfs_remotes:
-      - git://github.com/saltstack-formulas/salt-formula.git
+      - git://github.com/saltstack-formulas/salt-formula.git:
+        - base: develop
     file_roots:
       base:
         - /srv/salt
   minion:
     master: salt
+    fileserver_backend:
+      - git
+      - roots
+    gitfs_remotes:
+      - git://github.com/saltstack-formulas/salt-formula.git:
+        - base: develop
+    file_roots:
+      base:
+        - /srv/salt
     module_config:
       test: True
       test.foo: foo
-      test.bar: 
+      test.bar:
         - baz
         - quo
       test.baz:
         spam: sausage
         cheese: bread
+  cloud:
+    master: salt
+    folders:
+      - cloud.providers.d/key
+      - cloud.profiles.d
+      - cloud.maps.d
+    providers:
+      - ec2
+      - gce
+    aws_key: AWSKEYIJSHJAIJS6JSH
+    aws_secret: AWSSECRETYkkDY1iQf9zRtl9+pW+Nm+aZY95
+    gce_project: test
+    gce_service_account_email_address: 867543072364-orl4h2tpp8jcn1tr9ipj@developer.gserviceaccount.com
+    rsos_user: afeawofghob
+    rsos_tenant: tenant_id_number
+    rsos_apikey: WFJIOJEOIGHSOFHESO
+    rsos_regions:
+      - ORD
+      - DFW
+      - IAD
+      - SYD
+      - HKG
+  reactor:
+    - 'deploy':
+      - /srv/salt/reactors/deploy.sls
+  ssh_roster:
+    prod1:
+      host: host.example.com
+      user: ubuntu
+      sudo: True
+      priv: /etc/salt/ssh_keys/sshkey.pem
+
+salt_cloud_certs:
+  aws:
+    pem: |
+      -----BEGIN RSA PRIVATE KEY-----
+      ...........
+      -----END RSA PRIVATE KEY-----
+
+  gce:
+    pem: |
+      -----BEGIN RSA PRIVATE KEY-----
+      ...........
+      -----END RSA PRIVATE KEY-----
