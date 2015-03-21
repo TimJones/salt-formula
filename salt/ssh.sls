@@ -1,12 +1,12 @@
-{% from "salt/package-map.jinja" import pkgs with context %}
+{% from "salt/map.jinja" import salt_settings with context %}
 
 ensure salt-ssh is installed:
   pkg.installed:
-    - name: {{ pkgs['salt-ssh'] }}
+    - name: {{ salt_settings.salt_ssh }}
 
 ensure roster config:
   file.managed:
-    - name: {{ pkgs.get('config_path', '/etc/salt') }}/roster
+    - name: {{ salt_settings.config_path }}/roster
     - source: salt://salt/files/roster.jinja
     - template: jinja
     - require:
