@@ -1,5 +1,8 @@
 {% from "salt/map.jinja" import salt_settings with context %}
 
+git:
+  pkg.installed
+
 {% if salt_settings.gitfs.pygit2.install_from_source %}
 # we probably don't have a package or it's not a high enough version
 # install latest from source/pip
@@ -53,8 +56,7 @@ install-pygit2:
     - name: pygit2
 
 {% else %}
-# install from package
-# TODO haven't actually found a distro that has a good version to test
-# debian jessie will have libgit2-21
+{{ salt_settings.pygit2 }}:
+  pkg.installed
 
 {% endif %}
